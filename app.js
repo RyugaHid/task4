@@ -47,6 +47,9 @@ app.use(express.static('public'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const User = mongoose.model('User', userSchema);
+app.get('/', (req,res) => {
+  res.sendFile('/index.html')
+})
 
 
 app.get('/users', async (req, res) => {
