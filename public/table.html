@@ -1,0 +1,43 @@
+<!-- table.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Зарегистрированные пользователи</title>
+  <!-- Подключение Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>Зарегистрированные пользователи</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Имя пользователя</th>
+          <th scope="col">Email</th>
+          <th scope="col">Status</th>
+          <th scope="col">ID</th>
+          <th scope="col">Last Login</th>
+          <th scope="col">Registration Date</th>
+
+        </tr>
+      </thead>
+      <tbody id="userTableBody"></tbody>
+    </table>
+    <!-- Кнопки действий -->
+    <button class="btn btn-danger" id="deleteButton" >Удалить</button>
+    <button class="btn btn-warning" id="blockButton" >Заблокировать</button>
+    <button class="btn btn-success" id="unblockButton" >Разблокировать</button>
+  </div>
+
+  <!-- Подключение Bootstrap JS и jQuery (для работы Bootstrap JS) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="/scripts/table.js"></script>
+  <script src="/users.js"></script>
+
+</body>
+</html>
