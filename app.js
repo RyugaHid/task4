@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors')
 const app = express();
 const bcrypt = require('bcrypt');
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 const mongoURI = 'mongodb+srv://nikapairazian:Edonika135@cluster.g7prdh8.mongodb.net/?retryWrites=true&w=majority'
 
 
