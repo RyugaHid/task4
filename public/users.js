@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async function () {
-  const response = await fetch('http://localhost:3000/users');
+  const response = await fetch('/users');
   const users = await response.json();
   const deleteButton = document.getElementById('deleteButton');
   const blockButton = document.getElementById('blockButton');
