@@ -12,7 +12,7 @@ mongoose.connect(mongoURI);
 
 const userSchema = new mongoose.Schema({
   username: String,
-  email: String,
+  email: { type: String, unique: true },
   password: String,
   status: String,
   lastLogin: Date,
@@ -51,10 +51,7 @@ app.get('/', (req,res) => {
   res.sendFile('/index.html')
 })
 
-db.createIndex( { email: 1, unique: true }, function(err, result) {
-  console.log(result);
-  callback(result);
-})
+
 app.get('/users', async (req, res) => {
   try {
     const users = await User.find();
@@ -71,9 +68,8 @@ app.post('/register', async (req, res) => {
   const now = new Date();
 
   try {
-    const existingUser = await User.findOne({ email });
 
-    if (!existingUser) {
+    
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = new User({
         username: username,
@@ -86,12 +82,15 @@ app.post('/register', async (req, res) => {
 
       await newUser.save();
       res.status(200).json({ message: 'Регистрация успешна' });
-    } else {
-      res.json({ message: 'Пользователь уже существует' });
-    }
+     
   } catch (error) {
-    console.error('Ошибка регистрации:', error);
-    res.status(500).json({ error: 'Ошибка регистрации', details: error.message });
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
+      // Ошибка уникальности (дублирование email)
+      return res.status(400).json({ message: 'User with this email already exists' });
+    } else {
+      console.error('Ошибка при сохранении пользователя:', error);
+      res.status(500).json({ message: 'Failed to register user' });
+    }
   }
 });
 app.post('/login', async (req, res) => {
