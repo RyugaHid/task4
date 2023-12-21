@@ -52,14 +52,17 @@
       const result = await response.json();
 
       if (response.status === 200) {
-        console.log(result.message);
-      } else {
-        console.log(result.error);
+        alert(result.message);
+      } else if(response.status === 400){
+
+        alert(result.message);
+      }else {
+        alert(response.error)
       }
     } catch (error) {
+      
       console.error('Ошибка при выполнении запроса:', error);
     } finally {
-      // Разблокировать форму и включить кнопку регистрации после завершения запроса (успешного или с ошибкой)
       registrationForm.classList.remove('disabled');
       registerButton.disabled = false;
     }

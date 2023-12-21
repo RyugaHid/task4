@@ -12,17 +12,7 @@ const mongoURI = 'mongodb+srv://nikapairazian:Edonika135@cluster.g7prdh8.mongodb
 
 
 mongoose.connect(mongoURI, )
-  .then(() => {
-    console.log('Connected to MongoDB');
-    return User.init(); // Создание индексов
-  })
-  .then(() => {
-    console.log('User model indexes created');
-    app.listen(port, () => {
-      console.log(`Server is running at ${port}`);
-    });
-  })
-  .catch(error => console.error('Error connecting to MongoDB:', error));
+
 
   const userSchema = new mongoose.Schema({
     username: String,
@@ -35,13 +25,7 @@ mongoose.connect(mongoURI, )
 app.use(cors());
 const User = mongoose.model('User', userSchema);
 
-User.collection.createIndex({ email: 1 }, { unique: true })
-  .then(() => {
-    console.log('Уникальный индекс на поле "email" успешно создан');
-  })
-  .catch((error) => {
-    console.error('Ошибка при создании уникального индекса:', error);
-  });
+
 const db = mongoose.connection;
 
 db.on('connected', () => {
@@ -101,7 +85,8 @@ app.post('/register', async (req, res) => {
       });
 
       await newUser.save();
-      res.status(200).json({ message: 'Регистрация успешна' });
+      res.status(200).json({ message: 'Регистрация успешна', user: newUser });
+
      
   } catch (error) {
     if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
