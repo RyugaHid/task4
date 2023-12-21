@@ -8,17 +8,31 @@ const bcrypt = require('bcrypt');
 const port = process.env.PORT || 3000;
 const mongoURI = 'mongodb+srv://nikapairazian:Edonika135@cluster.g7prdh8.mongodb.net/?retryWrites=true&w=majority'
 
-mongoose.connect(mongoURI);
 
-const userSchema = new mongoose.Schema({
-  username: String,
-  email: { type: String, unique: true },
-  password: String,
-  status: String,
-  lastLogin: Date,
-  registrationDate: Date,
-});
 
+
+mongoose.connect(mongoURI, )
+  .then(() => {
+    console.log('Connected to MongoDB');
+    return User.init(); // Создание индексов
+  })
+  .then(() => {
+    console.log('User model indexes created');
+    app.listen(port, () => {
+      console.log(`Server is running at ${port}`);
+    });
+  })
+  .catch(error => console.error('Error connecting to MongoDB:', error));
+
+  const userSchema = new mongoose.Schema({
+    username: String,
+    email: { type: String, unique: true },
+    password: String,
+    status: String,
+    lastLogin: Date,
+    registrationDate: Date,
+  });
+  userSchema.index({email: 1, unique: true})
 app.use(cors());
 
 const db = mongoose.connection;
