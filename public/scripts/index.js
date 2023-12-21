@@ -29,10 +29,16 @@
   document.getElementById('registrationForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
+    // Заблокировать форму и отключить кнопку регистрации
+    const registrationForm = document.getElementById('registrationForm');
+    const registerButton = document.getElementById('registerButton'); // предположим, что у вас есть кнопка с id 'registerButton'
+    
+    registrationForm.classList.add('disabled'); // добавить класс, чтобы заблокировать стили
+    registerButton.disabled = true; // отключить кнопку
+
     const regEmail = document.getElementById('email').value;
     const regPassword = document.getElementById('password').value;
     const regUsername = document.getElementById('username').value;
-
 
     try {
       const response = await fetch('/register', {
@@ -40,18 +46,21 @@
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: regEmail, password: regPassword , username: regUsername}),
+        body: JSON.stringify({ email: regEmail, password: regPassword, username: regUsername }),
       });
 
       const result = await response.json();
 
       if (response.status === 200) {
-          
         alert(result.message);
       } else {
         alert(result.error);
       }
     } catch (error) {
       console.error('Ошибка при выполнении запроса:', error);
+    } finally {
+      // Разблокировать форму и включить кнопку регистрации после завершения запроса (успешного или с ошибкой)
+      registrationForm.classList.remove('disabled');
+      registerButton.disabled = false;
     }
-  });
+});
