@@ -52,9 +52,9 @@
       const result = await response.json();
 
       if (response.status === 200) {
-        alert(result.message);
+        console.log(result.message);
       } else {
-        alert(result.error);
+        console.log(result.error);
       }
     } catch (error) {
       console.error('Ошибка при выполнении запроса:', error);

@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors')
 const app = express();
 const bcrypt = require('bcrypt');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const mongoURI = 'mongodb+srv://nikapairazian:Edonika135@cluster.g7prdh8.mongodb.net/?retryWrites=true&w=majority'
 
 
@@ -32,9 +32,16 @@ mongoose.connect(mongoURI, )
     lastLogin: Date,
     registrationDate: Date,
   });
-  userSchema.index({email: 1, unique: true})
 app.use(cors());
+const User = mongoose.model('User', userSchema);
 
+User.collection.createIndex({ email: 1 }, { unique: true })
+  .then(() => {
+    console.log('Уникальный индекс на поле "email" успешно создан');
+  })
+  .catch((error) => {
+    console.error('Ошибка при создании уникального индекса:', error);
+  });
 const db = mongoose.connection;
 
 db.on('connected', () => {
@@ -60,7 +67,6 @@ process.on('SIGINT', () => {
 app.use(express.static('public'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const User = mongoose.model('User', userSchema);
 app.get('/', (req,res) => {
   res.sendFile('/index.html')
 })
@@ -107,6 +113,7 @@ app.post('/register', async (req, res) => {
     }
   }
 });
+let currentUser
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
