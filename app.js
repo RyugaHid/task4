@@ -51,7 +51,7 @@ app.get('/', (req,res) => {
   res.sendFile('/index.html')
 })
 
-collection.createIndex( { "email": 1, "unique": true }, function(err, result) {
+db.createIndex( { email: 1, unique: true }, function(err, result) {
   console.log(result);
   callback(result);
 })
